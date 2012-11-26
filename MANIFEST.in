@@ -1,0 +1,4 @@
+include AUTHORS
+include LICENSE
+include LICENSE.tastypie
+include README.rst
