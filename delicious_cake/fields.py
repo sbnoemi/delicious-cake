@@ -30,7 +30,7 @@ class ApiField(object):
 
         Optionally accepts a ``default``, which provides default data when the
         object being ``processed`` has no data on the field.
-        Defaults to ``NOT_PROVIDED``.
+        Defaults to ``None``.
 
         Optionally accepts ``help_text``, which lets you provide a
         human-readable description of the field exposed at the schema level.
