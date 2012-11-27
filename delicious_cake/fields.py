@@ -26,7 +26,7 @@ class ApiField(object):
     processed_type = 'string'
     help_text = ''
 
-    def __init__(self, attr=None, default=NOT_PROVIDED, help_text=None):
+    def __init__(self, attr=None, default=None, help_text=None):
         """
         Optionally accepts an ``attr``, which should be a string of
         either an instance attribute or callable off the object during
