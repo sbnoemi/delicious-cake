@@ -16,11 +16,6 @@ DATETIME_REGEX = re.compile(
         ':(?P<minute>\d{2}):(?P<second>\d{2}).*?$')
 
 
-class NOT_PROVIDED:
-    def __str__(self):
-        return 'No default provided.'
-
-
 class ApiField(object):
     """The base implementation of an entity field."""
     processed_type = 'string'
@@ -54,7 +49,7 @@ class ApiField(object):
 
     def has_default(self):
         """Returns a boolean of whether this field has a default value."""
-        return self._default is not NOT_PROVIDED
+        return self._default is not None
 
     @property
     def default(self):
