@@ -1,4 +1,4 @@
 include AUTHORS
 include LICENSE
-include LICENSE.tastypie
+include LICENSE-Tastypie
 include README.rst
