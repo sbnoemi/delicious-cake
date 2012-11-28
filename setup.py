@@ -17,7 +17,7 @@ setup(
     description='A flexible REST framework for Django',
     author='Mike Urbanski',
     author_email='mike@theitemshoppe.com',
-    url='http://github.com/mcu/django-delicious-cake/',
+    url='http://github.com/itemshoppe/delicious-cake',
     long_description=README(),
     packages=[
         'delicious_cake',
