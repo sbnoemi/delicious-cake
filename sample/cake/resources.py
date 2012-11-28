@@ -47,13 +47,17 @@ class CakeListResource(ListResource):
         # 'Entity' classes are used to pre-process objects before 
         # serialization.        
 
-        # If a returned object has both a list and detail view form, different
-        # entity classes can be specified and will automatically be used in 
-        # the correct context.  If the same representation of the object is 
-        # used in both list and details views, the 'entity_cls' option can be 
-        # used.  
-        detail_list_cls = CakeListEntity
+        # The 'list_entity_cls' will be used to pre-process the returned 
+        # objects when viewed as a list.
+        list_entity_cls = CakeListEntity
+
+        # The 'detail_entity_cls' will be used to pre-process the returned 
+        # objects when returned individually.        
         detail_entity_cls = CakeDetailEntity
+
+        # If the same representation of the object is used in both list and 
+        # details views the 'entity_cls' option can be used
+        # (e.g.  entity_cls = CakeDetailEntity) 
 
 
 class CakeDetailResource(DetailResource):
@@ -136,8 +140,8 @@ class CakeListResourceExtra(ListResource):
         # the X-The-Cake-Is-A-Lie header, and no entity body.
 
         return ResourceResponse(
-            cake, include_entity=False,
-            response_cls=http.HttpCreated,
+            include_entity=False,
+            response_cls=http.HttpAccepted,
             response_kwargs={
                 'location': lambda entity: entity.get_resource_uri()})
 
