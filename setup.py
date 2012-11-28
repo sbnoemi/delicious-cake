@@ -13,7 +13,7 @@ def README():
 
 setup(
     name='delicious-cake',
-    version='0.0.0',
+    version='0.0.1',
     description='A flexible & capable API layer for Django.',
     author='Mike Urbanski',
     author_email='mike@theitemshoppe.com',
