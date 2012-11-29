@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from delicious_cake import http
 from delicious_cake.resources import (
     ListResource, DetailResource, ResourceResponse,)
-from delicious_cake.exceptions import FormValidationError
+from delicious_cake.exceptions import ValidationError
 
 from cake.models import Cake
 from cake.forms import CakeForm
@@ -25,7 +25,7 @@ class CakeListResource(ListResource):
         cake_form = CakeForm(request.DATA)
 
         if not cake_form.is_valid():
-            raise FormValidationError(cake_form.errors)
+            raise ValidationError(cake_form.errors)
 
         # Return the newly created instance and indicate that 
         # HTTP 201 CREATED should be used in the response.
@@ -78,7 +78,7 @@ class CakeDetailResource(DetailResource):
         cake_form = CakeForm(request.DATA, instance=instance)
 
         if not cake_form.is_valid():
-            raise FormValidationError(cake_form.errors)
+            raise ValidationError(cake_form.errors)
 
         # Return the newly created instance and indicate that 
         # HTTP 201 CREATED should be used in the response.
@@ -115,7 +115,7 @@ class CakeListResourceExtra(ListResource):
         cake_form = CakeForm(request.DATA)
 
         if not cake_form.is_valid():
-            raise FormValidationError(cake_form.errors)
+            raise ValidationError(cake_form.errors)
 
         cake = cake_form.save()
 

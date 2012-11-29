@@ -22,7 +22,7 @@ from delicious_cake.options import DetailResourceOptions, ListResourceOptions
 from delicious_cake.exceptions import (
     ImmediateHttpResponse, BadRequest,
     UnsupportedSerializationFormat, UnsupportedDeserializationFormat,
-    WrongNumberOfValues, ResourceEntityError, FormValidationError,)
+    WrongNumberOfValues, ResourceEntityError, ValidationError,)
 
 __all__ = ('ResourceResponse', 'Resource',
            'DetailResource', 'ListResource', 'UploadResource',)
@@ -71,10 +71,13 @@ class Resource(View):
             self.request = request
             self.args = args
             self.kwargs = kwargs
+
             try:
                 response = handler(request, *args, **kwargs)
-            except FormValidationError, e:
+            except ValidationError, e:
+                # Catch ValidationError here for non-resources can throw them.
                 self.raise_validation_error(request, e.form_errors)
+
         except ImmediateHttpResponse, e:
             if e.response is not None:
                 response = e.response

@@ -53,7 +53,7 @@ What does it look like?
            cake_form = CakeForm(request.DATA)
 
            if not cake_form.is_valid():
-               raise FormValidationError(cake_form.errors)
+               raise ValidationError(cake_form.errors)
 
            # Return the newly created instance and indicate that 
            # HTTP 201 CREATED should be used in the response.
@@ -106,7 +106,7 @@ What does it look like?
            cake_form = CakeForm(request.DATA, instance=instance)
    
            if not cake_form.is_valid():
-               raise FormValidationError(cake_form.errors)
+               raise ValidationError(cake_form.errors)
    
            # Return the newly created instance and indicate that 
            # HTTP 201 CREATED should be used in the response.
@@ -143,7 +143,7 @@ What does it look like?
            cake_form = CakeForm(request.DATA)
    
            if not cake_form.is_valid():
-               raise FormValidationError(cake_form.errors)
+               raise ValidationError(cake_form.errors)
    
            cake = cake_form.save()
 

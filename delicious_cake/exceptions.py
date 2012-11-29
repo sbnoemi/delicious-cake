@@ -42,6 +42,9 @@ class ImmediateHttpResponse(DeliciousCakeError):
         self.response_cls = response_cls
         self.response_kwargs = response_kwargs
 
+        super(ImmediateHttpResponse, self).__init__(
+            'ImmediateHttpResponse error')
+
 
 class BadRequest(DeliciousCakeError):
     """
@@ -68,6 +71,6 @@ class ApiFieldError(DeliciousCakeError):
     pass
 
 
-class FormValidationError(DeliciousCakeError):
+class ValidationError(DeliciousCakeError):
     def __init__(self, form_errors):
         self.form_errors = form_errors
