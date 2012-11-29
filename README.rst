@@ -35,6 +35,17 @@ Let me know what you think!
 mike@theitemshoppe.com
 
 
+Did you know that Delicious Cake is on PyPi?
+============================================
+
+http://pypi.python.org/pypi/delicious-cake/
+
+Or run:
+::
+
+   pip install delicious-cake
+
+
 What does it look like?
 =======================
 

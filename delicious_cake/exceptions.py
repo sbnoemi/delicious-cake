@@ -32,8 +32,6 @@ class ImmediateHttpResponse(DeliciousCakeError):
         * for throttling
 
     """
-    response = HttpResponse("Nothing provided.")
-
     def __init__(self, response=None, response_cls=None, **response_kwargs):
         super(ImmediateHttpResponse, self).__init__(
             'ImmediateHttpResponse error')
