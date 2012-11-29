@@ -24,8 +24,7 @@ from delicious_cake.exceptions import (
     UnsupportedSerializationFormat, UnsupportedDeserializationFormat,
     WrongNumberOfValues, ResourceEntityError, ValidationError,)
 
-__all__ = ('ResourceResponse', 'Resource',
-           'DetailResource', 'ListResource', 'UploadResource',)
+__all__ = ('Resource', 'DetailResource', 'ListResource', 'MultipartResource',)
 
 
 log = logging.getLogger('django.request.delicious_cake')
@@ -184,6 +183,8 @@ class Resource(View):
                         resp = ResourceResponse(resp)
             else:
                 raise WrongNumberOfValues('Must return 1 or 2 values')
+        elif ret is not None:
+            resp = ResourceResponse(ret)
         else:
             resp = None
 
@@ -505,15 +506,8 @@ class ListResource(Resource):
         raise NotImplementedError
 
 
-class UploadResource(DetailResource):
-    def process_body(self, request):
-        request.DATA = {}
-        self.convert_post_to_put(request)
-
+class MultipartResource(DetailResource):
     def convert_post_to_VERB(self, request, verb):
-        """
-        Force Django to process the VERB.
-        """
         if request.method == verb:
             if hasattr(request, '_post'):
                 del(request._post)
@@ -532,3 +526,21 @@ class UploadResource(DetailResource):
 
     def convert_post_to_put(self, request):
         return self.convert_post_to_VERB(request, verb='PUT')
+
+    def deserialize(self, request, data, format=None):
+        self.convert_post_to_put(request)
+
+        if not format:
+            format = request.META.get('CONTENT_TYPE', 'application/json')
+
+        if format == 'application/x-www-form-urlencoded':
+            return request.POST
+
+        if format.startswith('multipart'):
+            data = request.POST.copy()
+            data.update(request.FILES)
+
+            return data
+
+        return super(MultipartResource, self).deserialize(
+            request, data, format)

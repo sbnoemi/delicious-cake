@@ -13,7 +13,7 @@ def README():
 
 setup(
     name='delicious-cake',
-    version='0.0.3',
+    version='0.0.4',
     description='A flexible REST framework for Django',
     author='Mike Urbanski',
     author_email='mike@theitemshoppe.com',

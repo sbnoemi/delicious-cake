@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 
 from delicious_cake import http
 from delicious_cake.resources import (
-    ListResource, DetailResource, ResourceResponse,)
+    ListResource, DetailResource, ResourceResponse, MultipartResource,)
 from delicious_cake.exceptions import ValidationError
 
 from cake.models import Cake
@@ -148,6 +148,25 @@ class CakeListResourceExtra(ListResource):
     @models.permalink
     def get_resource_uri(self):
         return ('cake-list-extra',)
+
+    class Meta(object):
+        entity_cls = CakeListEntity
+
+
+class CakeUploadResource(MultipartResource):
+    def post(self, request, *args, **kwargs):
+        cake_form = CakeForm(request.DATA)
+
+        if not cake_form.is_valid():
+            raise ValidationError(cake_form.errors)
+
+        cake = cake_form.save()
+
+        return cake, True
+
+    @models.permalink
+    def get_resource_uri(self):
+        return ('cake-upload',)
 
     class Meta(object):
         entity_cls = CakeListEntity

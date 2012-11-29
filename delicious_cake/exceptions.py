@@ -32,8 +32,12 @@ class ImmediateHttpResponse(DeliciousCakeError):
         * for throttling
 
     """
+    response = HttpResponse("Nothing provided.")
 
     def __init__(self, response=None, response_cls=None, **response_kwargs):
+        super(ImmediateHttpResponse, self).__init__(
+            'ImmediateHttpResponse error')
+
         if response is None and response_cls is None:
             raise ValueError(
                 "Must specify either 'response' or 'response_cls'")
@@ -41,9 +45,6 @@ class ImmediateHttpResponse(DeliciousCakeError):
         self.response = response
         self.response_cls = response_cls
         self.response_kwargs = response_kwargs
-
-        super(ImmediateHttpResponse, self).__init__(
-            'ImmediateHttpResponse error')
 
 
 class BadRequest(DeliciousCakeError):
