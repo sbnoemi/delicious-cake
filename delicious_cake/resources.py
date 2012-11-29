@@ -71,8 +71,10 @@ class Resource(View):
             self.request = request
             self.args = args
             self.kwargs = kwargs
-
-            response = handler(request, *args, **kwargs)
+            try:
+                response = handler(request, *args, **kwargs)
+            except FormValidationError, e:
+                self.raise_validation_error(request, e.form_errors)
         except ImmediateHttpResponse, e:
             if e.response is not None:
                 response = e.response
@@ -208,8 +210,6 @@ class Resource(View):
 
         if isinstance(exception, NOT_FOUND_EXCEPTIONS):
             response = cake_http.HttpNotFound(content_type=content_type)
-        elif isinstance(exception, FormValidationError):
-            self.raise_validation_error(request, exception.form_errors)
         elif isinstance(exception, UnsupportedSerializationFormat):
             response = cake_http.HttpNotAcceptable(content_type=content_type)
         elif isinstance(exception, UnsupportedDeserializationFormat):
