@@ -5,7 +5,7 @@ from delicious_cake.entities import Entity
 
 from cake.models import Cake
 
-__all__ = ('CakeListEntity', 'CakeDetailEntity')
+__all__ = ('CakeListEntity', 'CakeDetailEntity', 'CakePointListEntity',)
 
 
 class CakeEntity(Entity):
@@ -23,6 +23,15 @@ class CakeListEntity(CakeEntity):
     def process_cake_type(self, cake_type):
         return self.CAKE_TYPE_CHOICES_LOOKUP.get(cake_type, 'Unknown')
 
+class PointEntity(Entity):
+    x = fields.IntegerField(attr='x')
+    y = fields.IntegerField(attr='y')
+
+
+class CakePointListEntity(CakeListEntity):
+    point = fields.EntityField(attr='point', entity_cls=PointEntity)
+
 
 class CakeDetailEntity(CakeListEntity):
     message = fields.CharField(attr='message')
+

@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 
 from .resources import (
     CakeListResource, CakeDetailResource, CakeListResourceExtra,
-    CakeUploadResource,)
+    CakeUploadResource, CakePointListResource,)
 
 
 urlpatterns = patterns('',
@@ -11,5 +11,7 @@ urlpatterns = patterns('',
     url(r'^cake/$', CakeListResource.as_view(), name='cake-list'),
     url(r'^cake/extra/$', CakeListResourceExtra.as_view(),
         name='cake-list-extra'),
+    url(r'^cake/point/$', CakePointListResource.as_view(),
+        name='cake-list-point'),
     url(r'^cake/upload/$', CakeUploadResource.as_view(),
         name='cake-upload'),)

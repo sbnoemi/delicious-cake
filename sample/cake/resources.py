@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from django.db import models
 from django.shortcuts import get_object_or_404
 
@@ -8,9 +10,10 @@ from delicious_cake.exceptions import ValidationError
 
 from cake.models import Cake
 from cake.forms import CakeForm
-from cake.entities import CakeListEntity, CakeDetailEntity
+from cake.entities import CakeListEntity, CakeDetailEntity, CakePointListEntity
 
-__all__ = ('CakeDetailResource', 'CakeListResource', 'CakeListResourceExtra',)
+__all__ = ('CakeDetailResource', 'CakeListResource', 'CakeListResourceExtra',
+           'CakePointListResource')
 
 
 class CakeListResource(ListResource):
@@ -151,6 +154,18 @@ class CakeListResourceExtra(ListResource):
 
     class Meta(object):
         entity_cls = CakeListEntity
+
+
+class CakePointListResource(ListResource):
+    def get(self, request, *args, **kwargs):
+        return Cake.objects.all()
+
+    @models.permalink
+    def get_resource_uri(self):
+        return ('cake-list-point',)
+
+    class Meta(object):
+        entity_cls = CakePointListEntity
 
 
 class CakeUploadResource(MultipartResource):
