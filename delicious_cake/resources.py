@@ -304,7 +304,7 @@ class Resource(View):
         raise ImmediateHttpResponse(response=response)
 
     def raise_authorization_error(self):
-        raise ImmediateHttpResponse(response_cls=cake_http.HttpTooManyRequests)
+        raise ImmediateHttpResponse(response_cls=cake_http.HttpUnauthorized)
 
     def _get_include_entity(self, resource_response, force_include_entity):
         if force_include_entity:
