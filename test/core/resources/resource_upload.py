@@ -1,6 +1,6 @@
 from delicious_cake import fields
 from delicious_cake.entities import Entity
-from delicious_cake.resources import UploadResource
+from delicious_cake.resources import MultipartResource
 from delicious_cake.response import ResourceResponse
 
 from core.forms import CakeUploadForm
@@ -8,7 +8,7 @@ from core.forms import CakeUploadForm
 __all__ = ('CakeUploadResource',)
 
 
-class CakeUploadResource(UploadResource):
+class CakeUploadResource(MultipartResource):
     def _put_post(self, request, *args, **kwargs):
         cake_form = CakeUploadForm(files=request.FILES)
 

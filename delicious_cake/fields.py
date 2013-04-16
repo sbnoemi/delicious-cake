@@ -85,10 +85,18 @@ class ApiField(object):
         Takes data from the provided object and prepares it for the
         resource.
         """
+        attrs = None
+
         if self._attribute is not None:
-            # Check for `__` in the field for looking through the relation.
-            attrs = self._attribute.split('__')
+            attrs = self._attribute
+        elif self._field_name is not None:
+            attrs = self._field_name
+
+        if attrs is not None:
             current_object = obj
+
+            # Check for `__` in the field for looking through the relation.
+            attrs = attrs.split('__')
 
             if isinstance(obj, dict):
                 for attr in attrs:
@@ -291,8 +299,8 @@ class DateTimeField(ApiField):
 class EntityField(ApiField):
     processed_type = 'dict'
 
-    def __init__(self, *args, **kwargs):
-        self.entity_cls = kwargs.pop('entity_cls')
+    def __init__(self, entity_cls, *args, **kwargs):
+        self.entity_cls = entity_cls
         super(EntityField, self).__init__(*args, **kwargs)
 
     def convert(self, value):
