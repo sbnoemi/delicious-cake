@@ -7,7 +7,7 @@ except ImportError:
 
 
 def README():
-    with open('README.rst', 'r') as readme:
+    with open('README.md', 'r') as readme:
         return readme.read()
 
 
