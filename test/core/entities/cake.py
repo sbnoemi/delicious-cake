@@ -17,7 +17,7 @@ class CakeEntity(Entity):
 
 
 class CakeDeleteEntity(Entity):
-    message = fields.CharField(attr='message')
+    message = fields.CharField()
 
     def process_message(self, processed_data):
         return u'DELETED:  %s' % processed_data['cake']
@@ -34,4 +34,4 @@ class CakeListEntity(CakeEntity):
 
 
 class CakeDetailEntity(CakeListEntity):
-    message = fields.CharField(attr='message')
+    message = fields.CharField()

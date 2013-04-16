@@ -227,7 +227,7 @@ class CakeListEntity(CakeEntity):
 
 
 class CakeDetailEntity(CakeListEntity):
-    message = fields.CharField(attr='message')
+    message = fields.CharField()
 ```
 **models.py**:
 
