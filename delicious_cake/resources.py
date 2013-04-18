@@ -72,7 +72,7 @@ class Resource(View):
             self.kwargs = kwargs
 
             try:
-                response = handler(request, *args, **kwargs)
+                response = self.dispatch_any(request, handler, *args, **kwargs)
             except ValidationError, e:
                 # Catch ValidationError here for non-resources can throw them.
                 self.raise_validation_error(request, e.form_errors)
@@ -128,6 +128,12 @@ class Resource(View):
         self._meta.throttle.accessed(
             self._meta.authentication.get_identifier(request),
             url=request.get_full_path(), request_method=request_method)
+            
+    def dispatch_any(self, request, handler, *args, **kwargs):
+        """
+        Hook for custom exception handling
+        """
+        return handler(request, *args, **kwargs)
 
     def dispatch_get(self, request, *args, **kwargs):
         raise NotImplementedError
