@@ -32,10 +32,9 @@ class ApiAccess(models.Model):
 if 'django.contrib.auth' in settings.INSTALLED_APPS:
     import uuid
     from django.conf import settings
-    from django.contrib.auth.models import User
 
     class ApiKey(models.Model):
-        user = models.OneToOneField(User, related_name='api_key')
+        user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='api_key')
         key = models.CharField(
             max_length=256, blank=True, default='', db_index=True)
         created = models.DateTimeField(default=now)
