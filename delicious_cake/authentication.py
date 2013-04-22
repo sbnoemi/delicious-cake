@@ -194,7 +194,7 @@ class ApiKeyAuthentication(Authentication):
             return self._unauthorized()
 
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get_by_natural_key(username)
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             return self._unauthorized()
 
