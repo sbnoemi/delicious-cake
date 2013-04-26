@@ -363,7 +363,7 @@ class DigestAuthentication(Authentication):
         User = get_user_model()
 
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get_by_natural_key(username)
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             return False
 
