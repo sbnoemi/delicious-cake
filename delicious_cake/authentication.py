@@ -393,9 +393,10 @@ class DigestAuthentication(Authentication):
         This implementation returns the user's username.
         """
         if hasattr(request, 'user'):
-            if hasattr(request.user, 'username'):
-                return request.user.username
-
+            try:
+                return request.user.get_username()
+            except AttributeError:
+                pass
         return 'nouser'
 
 
