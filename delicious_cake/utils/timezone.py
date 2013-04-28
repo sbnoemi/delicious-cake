@@ -20,7 +20,8 @@ try:
         return value
 
     def now():
-        return timezone.localtime(timezone.now())
+        localtime = getattr(timezone, "template_localtime", timezone.localtime)
+        return localtime(timezone.now())
 
 except ImportError:
     now = datetime.datetime.now
