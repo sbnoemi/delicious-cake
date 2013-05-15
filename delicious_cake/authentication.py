@@ -182,7 +182,8 @@ class ApiKeyAuthentication(Authentication):
         Should return either ``True`` if allowed, ``False`` if not or an
         ``HttpResponse`` if you need something custom.
         """
-        from django.contrib.auth.models import User
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
 
         try:
             username, api_key = self.extract_credentials(request)
@@ -193,7 +194,7 @@ class ApiKeyAuthentication(Authentication):
             return self._unauthorized()
 
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get_by_natural_key(username)
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             return self._unauthorized()
 
@@ -358,10 +359,11 @@ class DigestAuthentication(Authentication):
         return True
 
     def get_user(self, username):
-        from django.contrib.auth.models import User
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
 
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get_by_natural_key(username)
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             return False
 
@@ -391,9 +393,10 @@ class DigestAuthentication(Authentication):
         This implementation returns the user's username.
         """
         if hasattr(request, 'user'):
-            if hasattr(request.user, 'username'):
-                return request.user.username
-
+            try:
+                return request.user.get_username()
+            except AttributeError:
+                pass
         return 'nouser'
 
 
