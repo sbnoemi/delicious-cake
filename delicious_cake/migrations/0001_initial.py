@@ -22,7 +22,7 @@ class Migration(SchemaMigration):
         db.create_table(u'delicious_cake_apikey', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(related_name='api_key', unique=True, to=orm['sb_auth.SBUser'])),
-            ('key', self.gf('django.db.models.fields.CharField')(default='', max_length=256, db_index=True, blank=True)),
+            ('key', self.gf('django.db.models.fields.CharField')(default='', max_length=255, db_index=True, blank=True)),
             ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 5, 1, 0, 0))),
         ))
         db.send_create_signal(u'delicious_cake', ['ApiKey'])
