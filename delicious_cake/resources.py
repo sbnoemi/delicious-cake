@@ -128,7 +128,7 @@ class Resource(View):
         self._meta.throttle.accessed(
             self._meta.authentication.get_identifier(request),
             url=request.get_full_path(), request_method=request_method)
-            
+
     def dispatch_any(self, request, handler, *args, **kwargs):
         """
         Hook for custom exception handling
@@ -474,10 +474,20 @@ class ListResource(Resource):
             entities = obj
 
         if paginated:
-            paginator = self._meta.paginator_cls(
-                request.GET, entities, resource_uri=self.get_resource_uri(),
-                limit=self._meta.limit, max_limit=self._meta.max_limit,
-                collection_name=self._meta.collection_name)
+            from delicious_cake.paginators import RequestPaginator
+
+            # adding support for request aware paginators
+            if issubclass(self._meta.paginator_cls, RequestPaginator):
+                paginator = self._meta.paginator_cls(
+                    request.GET, entities, resource_uri=self.get_resource_uri(),
+                    limit=self._meta.limit, max_limit=self._meta.max_limit,
+                    collection_name=self._meta.collection_name,
+                    request=request)
+            else:
+                paginator = self._meta.paginator_cls(
+                    request.GET, entities, resource_uri=self.get_resource_uri(),
+                    limit=self._meta.limit, max_limit=self._meta.max_limit,
+                    collection_name=self._meta.collection_name)
 
             page = paginator.page()
             entities = page[self._meta.collection_name]
