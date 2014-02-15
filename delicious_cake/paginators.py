@@ -200,3 +200,14 @@ class Paginator(object):
 
         return {
             self.collection_name: objects, 'meta': meta}
+
+
+class RequestPaginator(Paginator):
+    """
+    RequestPaginator is a paginator class which is aware of the request to the
+    resource requiring pagination of objects.
+
+    """
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request")
+        super(RequestPaginator, self).__init__(*args, **kwargs)
